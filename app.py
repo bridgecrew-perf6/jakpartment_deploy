@@ -45,7 +45,7 @@ import base64
 def main():
     pd.set_option('display.max_colwidth', None)
     ### Dataset Import and Dashboard DataFrame Preparation (renaming columns for aesthetic purposes)
-    cleaned = pd.read_csv(r'Web Scraping and Dataset\\Cleaned Apartment Data.csv')
+    cleaned = pd.read_csv(r'Cleaned Apartment Data.csv')
 
     UnitType = list()
     for _ in cleaned.No_Rooms:
@@ -106,7 +106,7 @@ def main():
     if pages == "Home Page":
 
         st.title('Welcome to the Jakpartment Project!')
-        st.image('images\\apartment.jpg', width = 650)
+        st.image('apartment.jpg', width = 650)
         st.write("Open the navigation sidebar and select any pages to proceed. Happy exploring!")
     
     elif pages == "Apartment Rent Price Calculator":
@@ -115,7 +115,7 @@ def main():
         st.markdown("Enter your desired apartment unit and we'll estimate the annual rent price.")
 
         #Load Location Dictionary
-        load_dict = open('Temp Files\location_dict.pkl', 'rb')
+        load_dict = open('location_dict.pkl', 'rb')
         location = pickle.load(load_dict)
 
         #Define functions to find longitude/latitude
@@ -297,19 +297,19 @@ def main():
             })
 
         if st.button("Calculate Price", key='calculate'):
-            lgb = joblib.load('Models\lgb_final.joblib.dat')
+            lgb = joblib.load('lgb_final.joblib.dat')
             price = int(lgb.predict(df)[0])
             
-            lgb_001 = joblib.load('Models\lgb_001.joblib.dat')
+            lgb_001 = joblib.load('lgb_001.joblib.dat')
             lower_price1 = int(lgb_001.predict(df)[0])
 
-            lgb_099 = joblib.load('Models\lgb_099.joblib.dat')
+            lgb_099 = joblib.load('lgb_099.joblib.dat')
             upper_price99 = int(lgb_099.predict(df)[0])
 
-            lgb_005 = joblib.load('Models\lgb_005.joblib.dat')
+            lgb_005 = joblib.load('lgb_005.joblib.dat')
             lower_price5 = int(lgb_005.predict(df)[0])
 
-            lgb_095 = joblib.load('Models\lgb_095.joblib.dat')
+            lgb_095 = joblib.load('lgb_095.joblib.dat')
             upper_price95 = int(lgb_095.predict(df)[0])
 
             str_price = format(price, ',')
@@ -338,7 +338,7 @@ def main():
         st.markdown("Here's a short GIF on how you can find an apartment unit page in Jendela 360.")
         gif_view = st.radio("Toggle GIF viewing option:", ("View GIF", "Hide GIF"), index = 0)
         if gif_view == "View GIF":
-            file_ = open("images\scrape_example.gif", "rb")
+            file_ = open("scrape_example.gif", "rb")
             contents = file_.read()
             data_url = base64.b64encode(contents).decode("utf-8")
             file_.close()
